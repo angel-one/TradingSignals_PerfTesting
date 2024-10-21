@@ -1,0 +1,17 @@
+{
+    "template_id": 5,
+                "cohort_type": "1", 
+                "client_details": [
+                    {
+                        "client_id": "#{client}",
+                       "data_placeholder": {
+                            "name": "Test"
+                   }
+                }
+                ],
+                "request_id": "request-id-loadlesting",
+               "contains_variable_param": true,
+               "created_by": "test"
+
+}
+ 

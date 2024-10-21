@@ -1,0 +1,34 @@
+server:
+  port: 0 # Server information for embedded jetty
+  url: http://192.168.145.69:8080 #the master base url used by the client to upload uber jar and data feed files
+
+client:
+  numberOfActors: 1 # Number of worker actors , controls the number of parallel simulation jobs you can run per process
+  port: 0 # Port number for the actor system that host the worker actors
+  role: "client" # The name of the role each actor uses (role1,role2...role5 etc)
+
+gatling.user: gatling
+gatling.password: gatling
+client.accessKey: optional #optional access key for the partition
+client.partitionName: TradingSignals
+client.className: optional
+client.parameter: -DsimulationClass=${SimulationClass} -DAPI_Name=${API_Name} -DTestModel=${TestModel} -DTestInputs=${TestInputs}
+client.resourcesFeedPath: src/main/resources/45KClients.zip # path to the data feed file
+client.quiet: false
+client.parallelism: ${LGCount}
+client.jarPath: target/scala-3.1.0/gatling-execution.jar #path to uber jar
+client.userName: ${BUILD_USER}
+client.remoteArtifact: false
+client.resourcesFeedFileName: dummy #data feed file name
+client.jarFileName: gatling-execution.jar # jar file name
+# Actor identifier  that is used to join the master/cluster
+# update the host and port value to point to the cluster where the master is running on
+akka:
+  contact-points: "192.168.145.69:2551"
+
+application.title: poc
+
+logging.level.root: ERROR
+logging.level.com.alh.gatling: DEBUG
+logging.level.com.alh.gatling.Client: ERROR
+
