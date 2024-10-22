@@ -4,6 +4,7 @@ package TradingSignals
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
+import java.time.Instant
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -105,6 +106,38 @@ def ConditionFeed_API() = {
         .check(status is 200)
       )
   }
+
+  def CallBack_Api() = {
+    feed(NSE_CM_TOKENS)
+      .exec(http("Call Back Api")
+        .post("/v1/condition/callback")
+        .header("accept", "application/json")
+        .header("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX3R5cGUiOiJhcHBsaWNhdGlvbiIsInRva2VuX3R5cGUiOiJzMnNfYWNjZXNzX3Rva2VuIiwiZ21faWQiOjAsImtpZCI6ImNvbmRpdGlvbmFsLW9yZGVycy1zZXJ2aWNlLWtleS12MSIsIm9tbmVtYW5hZ2VyaWQiOjAsImlzcyI6ImNvbmRpdGlvbmFsLW9yZGVycy1zZXJ2aWNlIiwic3ViIjoiY29uZGl0aW9uYWwtb3JkZXJzIiwiYXVkIjpbInRyYWRpbmctc2lnbmFscyIsInRzLXNjcmlwdmVyc2UiXSwiZXhwIjoxNzQxNDg3OTExLCJuYmYiOjE3Mjk0ODc4NTEsImlhdCI6MTcyOTQ4Nzg1MSwianRpIjoiNTYxNDdkNjEtNTNhYy00MGEzLTllNjgtZDI2MzU4ODUwMDkzIn0.k0VkFRQCcWuBu5o7f8C2NrYPmEua9BTIEXC18V1hJSfCtakQJYFvAa-c1vpuJnzGM2mFv0SBfFKcUJgQiCQzbl2IJUyfSJb-PcCiwpy40JgX3MEDNC9sNNyDaDazjWbBLQXcBND0BERbMKe0Y9H-stOsrg-zCAq1c2H8u1vrCxM")
+        .header("X-source", "spark")
+        .header("Content-Type", "application/json")
+        .body(StringBody(
+          session => {
+            val currentTimestampMillis = Instant.now().toEpochMilli
+            s"""{
+               |    "token": {
+               |        "token": "324",
+               |        "exchange": "NSE",
+               |        "type": "EQUITY"
+               |    },
+               |    "conditionId": 26354996,
+               |    "timestampEpochMillis": $currentTimestampMillis,
+               |    "meta": {
+               |        "patternWidth": 1,
+               |        "conditionId": 123,
+               |        "description": "Bearsh doji formed on 5min candle"
+               |    }
+               |}""".stripMargin
+          }
+        ))
+        .check(status is 200)
+      )
+  }
+
 //Set-up
 
 val scn_CRUD_APIs = scenario("CRUD_APIs")
@@ -115,7 +148,16 @@ val scn_CRUD_APIs = scenario("CRUD_APIs")
                         exec(ConditionFeed_API())
                         .exec(ConditionsFeed_Bulk_API())
 
-                      }      
+                      }
+
+val scn_CALL_BACK = scenario("CALL_BACK")
+  .forever{
+    //                       exec(Token_API())
+    // exec(Create_Backtest_API())
+    //                      .exec(GetSchema_API())
+    exec(CallBack_Api())
+
+  }
 
   val httpProtocolMap : scala.collection.mutable.Map[io.gatling.core.structure.ScenarioBuilder, io.gatling.http.protocol.HttpProtocolBuilder] = scala.collection.mutable.Map.empty[io.gatling.core.structure.ScenarioBuilder, io.gatling.http.protocol.HttpProtocolBuilder]
   var ScenariosToRun = new ListBuffer[io.gatling.core.structure.PopulationBuilder]()
@@ -129,8 +171,15 @@ val scn_CRUD_APIs = scenario("CRUD_APIs")
       val user = InputsForTest(1).toInt      
       scnMap += (scn -> user)
       httpProtocolMap += (scn -> httpconf_coreUrl)
-  }  
- 
+  }
+
+  if (scenariosToExecute.contains("CALL_BACK")) {
+    val scn = scn_CALL_BACK
+    val user = InputsForTest(1).toInt
+    scnMap += (scn -> user)
+    httpProtocolMap += (scn -> httpconf_coreUrl)
+  }
+
     ScenariosToRun = InjectionProfile.LoadTestInjectionProfile(scnMap , httpProtocolMap,ScenariosToRun)
     val setupCustom = ScenariosToRun.toList
     setUp(setupCustom).maxDuration(testDuration seconds)
