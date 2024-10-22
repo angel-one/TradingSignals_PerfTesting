@@ -21,9 +21,7 @@ class ConditionalOrdersAPI extends Simulation {
   val Test_Inputs: String = System.getProperty("TestInputs", "10,1,1").toString // Picking input from Jenkins job (Test Type: StartWithUsersCount,StepUsersPerSec,StepRampDuration,StepDuration,NoOfSteps)
   val InputsForTest = Test_Inputs.split(",") 
 
-  val httpconf_coreUrl = http.baseUrl("https://core-co-uat.angelbroking.com").userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
-  val httpconf_processorUrl = http.baseUrl("http://internal-co-processor-pqa-1039061091.ap-south-1.elb.amazonaws.com").userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
-  
+  val httpconf_coreUrl = http.baseUrl("https://ts-sv-uat.angelone.in").userAgentHeader("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36")
   val NTT_Tokens = csv("data/NTT_Tokens.csv").circular
   val NSE_CM_TOKENS = csv("data/NSE_CM_TOKENS_MINI.csv").circular
 
