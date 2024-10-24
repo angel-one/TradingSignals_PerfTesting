@@ -88,7 +88,7 @@ def ConditionFeed_API() = {
   def ConditionsFeed_Bulk_API() = {
     feed(NSE_CM_TOKENS)
       .exec(http("Condition Bulk Feed")
-        .post("/v1/condition/results/feed?limit=1000&sortOrder=desc&offset=0")
+        .post("/v1/condition/results/feed?limit=10&sortOrder=desc&offset=0")
         .header("accept", "application/json")
         .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhbmdlbCIsImV4cCI6MTc1OTk4OTY5MywiaWF0IjoxNzI4NDUyNjYwLCJ1c2VyRGF0YSI6eyJjb3VudHJ5X2NvZGUiOiIiLCJtb2Jfbm8iOiI5OTA1MDQ5MDY3IiwidXNlcl9pZCI6IlM2MTA0MTQ4OCIsInNvdXJjZSI6IjMiLCJhcHBfaWQiOiJzcGFyay13ZWIiLCJjcmVhdGVkX2F0IjoiMjAyNC0xMC0wOVQxMToxNDoyMC45MDQ0MDQwNCswNTozMCIsImRhdGFDZW50ZXIiOiIifSwidXNlcl90eXBlIjoiY2xpZW50IiwidG9rZW5fdHlwZSI6Im5vbl90cmFkZV9hY2Nlc3NfdG9rZW4iLCJzb3VyY2UiOiIzIiwiZGV2aWNlX2lkIjoiODAxNTBkMWEtYzFlZC01ZjUzLTkxNGMtYmIzYzk4MzM2OWM5IiwiYWN0Ijp7fSwicHJvZHVjdHMiOnsiZGVtYXQiOnsic3RhdHVzIjoiYWN0aXZlIn0sIm1mIjp7InN0YXR1cyI6ImFjdGl2ZSJ9fX0.V5EaNFeh7yp2bgZwwhBr1zZGNBxkfW1cnTFGwl9h-L0")
         .header("X-source", "spark")
