@@ -78,8 +78,8 @@ def ConditionFeed_API() = {
             |        "underlying": {}
             |    },
             |    "source": "SIGNAL-FEED",
-            |    "from": 1725954360000,
-            |    "to": 1728546360000
+            |    "from": 1729621800000,
+            |    "to": 1729708199000
             |}""".stripMargin))
         .check(status is 200)
       )
@@ -100,8 +100,8 @@ def ConditionFeed_API() = {
             |        "underlying": {}
             |    },
             |    "source": "SIGNAL-FEED",
-            |    "from": 1725954360000,
-            |    "to": 1728546360000
+            |    "from": 1729621800000,
+            |    "to": 1729708199000
             |}""".stripMargin))
         .check(status is 200)
       )
