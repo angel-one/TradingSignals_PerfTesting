@@ -77,9 +77,9 @@ def ConditionFeed_API() = {
             |        "type": "",
             |        "underlying": {}
             |    },
-            |    "source": "SIGNAL-FEED",
-            |    "from": 1729621800000,
-            |    "to": 1729708199000
+            |    "source": "perf",
+            |    "from": 1729708200000,
+            |    "to": 1729794599000
             |}""".stripMargin))
         .check(status is 200)
       )
@@ -99,9 +99,9 @@ def ConditionFeed_API() = {
             |        "type": "",
             |        "underlying": {}
             |    },
-            |    "source": "SIGNAL-FEED",
-            |    "from": 1729621800000,
-            |    "to": 1729708199000
+            |    "source": "perf",
+            |    "from": 1729708200000,
+            |    "to": 1729794599000
             |}""".stripMargin))
         .check(status is 200)
       )
